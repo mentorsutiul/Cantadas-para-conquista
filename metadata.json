@@ -1,0 +1,7 @@
+{
+  "name": "Remix: Cantadas para Conquista",
+  "description": "O aplicativo definitivo de cantadas profissionais e criativas, agora com gerador de cantadas por Inteligência Artificial.",
+  "requestFramePermissions": [
+    "notifications"
+  ]
+}
