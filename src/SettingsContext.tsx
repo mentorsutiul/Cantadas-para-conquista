@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { AppSettings } from './types';
+import { safeStorage } from './lib/storage';
 
 interface SettingsContextType {
   settings: AppSettings;
@@ -18,17 +19,17 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 
 export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [settings, setSettings] = useState<AppSettings>(() => {
-    const saved = localStorage.getItem('cantadas_settings');
+    const saved = safeStorage.getItem('cantadas_settings');
     return saved ? JSON.parse(saved) : defaultSettings;
   });
 
   const [favorites, setFavorites] = useState<string[]>(() => {
-    const saved = localStorage.getItem('cantadas_favorites');
+    const saved = safeStorage.getItem('cantadas_favorites');
     return saved ? JSON.parse(saved) : [];
   });
 
   useEffect(() => {
-    localStorage.setItem('cantadas_settings', JSON.stringify(settings));
+    safeStorage.setItem('cantadas_settings', JSON.stringify(settings));
     
     const root = window.document.documentElement;
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -66,7 +67,7 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, [settings]);
 
   useEffect(() => {
-    localStorage.setItem('cantadas_favorites', JSON.stringify(favorites));
+    safeStorage.setItem('cantadas_favorites', JSON.stringify(favorites));
   }, [favorites]);
 
   const updateSettings = (newSettings: Partial<AppSettings>) => {

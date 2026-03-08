@@ -12,12 +12,20 @@ const Settings = () => {
   const { settings, updateSettings } = useSettings();
   const [activeDetail, setActiveDetail] = useState<'privacy' | 'about' | null>(null);
   const [shareStatus, setShareStatus] = useState<'idle' | 'copied'>('idle');
+  const [ratingStatus, setRatingStatus] = useState<'idle' | 'redirecting'>('idle');
+
+  const handleRating = () => {
+    setRatingStatus('redirecting');
+    setTimeout(() => setRatingStatus('idle'), 2000);
+    // In a real app, you would redirect here:
+    // window.open('https://play.google.com/store/apps/details?id=com.cantadas.app', '_blank');
+  };
 
   const handleShareApp = async () => {
     const shareData = {
-      title: 'Cantadas',
+      title: 'Cantadas para Conquista',
       text: 'Confira o melhor app de cantadas!',
-      url: window.location.origin
+      url: 'https://cantadas-para-conquista.vercel.app/'
     };
 
     if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
@@ -34,7 +42,7 @@ const Settings = () => {
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(window.location.origin);
+    navigator.clipboard.writeText('https://cantadas-para-conquista.vercel.app/');
     setShareStatus('copied');
     setTimeout(() => setShareStatus('idle'), 2000);
   };
@@ -159,8 +167,9 @@ const Settings = () => {
         <SettingItem 
           icon={Star} 
           label="Avaliar na Loja" 
+          value={ratingStatus === 'redirecting' ? 'Abrindo...' : undefined}
           color="text-yellow-500"
-          onClick={() => alert('Redirecionando para a loja...')}
+          onClick={handleRating}
         />
         <SettingItem 
           icon={MessageSquare} 
@@ -220,6 +229,17 @@ const Settings = () => {
                     <p>Nosso objetivo é proporcionar uma experiência leve, divertida e profissional, garantindo que você tenha sempre uma boa conversa na ponta da língua.</p>
                     
                     <div className="pt-8 border-t border-slate-100 dark:border-slate-800">
+                      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4">Site Oficial</h3>
+                      <a 
+                        href="https://cantadas-para-conquista.vercel.app/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-rose-500 font-medium flex items-center gap-2 mb-4"
+                      >
+                        cantadas-para-conquista.vercel.app
+                        <ExternalLink size={14} />
+                      </a>
+                      
                       <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4">Desenvolvedores</h3>
                       <p className="text-sm">Equipe Cantadas para Conquista</p>
                       <p className="text-sm mt-1">Contato: suporte@cantadaspro.com</p>
