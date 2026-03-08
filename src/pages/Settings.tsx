@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   Moon, Sun, Bell, Shield, Info, Share2, Star, MessageSquare, 
   ChevronRight, ExternalLink, Palette, Globe, Database
@@ -11,14 +11,6 @@ import Modal from '../components/Modal';
 const Settings = () => {
   const { settings, updateSettings } = useSettings();
   const [activeModal, setActiveModal] = useState<'privacy' | 'about' | null>(null);
-  const [aiStats, setAiStats] = useState<number | null>(null);
-
-  useEffect(() => {
-    fetch('/api/stats')
-      .then(res => res.json())
-      .then(data => setAiStats(data.count))
-      .catch(err => console.error(err));
-  }, []);
 
   const SettingItem = ({ 
     icon: Icon, 
@@ -123,17 +115,6 @@ const Settings = () => {
             onClick={() => {}}
           />
         )}
-      </div>
-
-      <SectionHeader>Dados & Sistema</SectionHeader>
-      <div className="space-y-3">
-        <SettingItem 
-          icon={Database} 
-          label="Cantadas Geradas por IA" 
-          value={aiStats !== null ? aiStats.toString() : '...'}
-          color="text-indigo-500"
-          onClick={() => {}}
-        />
       </div>
 
       <SectionHeader>Sobre o App</SectionHeader>

@@ -7,7 +7,6 @@ import CategoryDetail from './pages/CategoryDetail';
 import Favorites from './pages/Favorites';
 import Settings from './pages/Settings';
 import Daily from './pages/Daily';
-import AIGenerator from './pages/AIGenerator';
 import { AnimatePresence } from 'motion/react';
 
 export default function App() {
@@ -21,7 +20,6 @@ export default function App() {
               <Route path="/category/:id" element={<CategoryDetail />} />
               <Route path="/favorites" element={<Favorites />} />
               <Route path="/daily" element={<Daily />} />
-              <Route path="/ai" element={<AIGenerator />} />
               <Route path="/settings" element={<Settings />} />
             </Routes>
           </AnimatePresence>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Heart, Home, Settings, Sparkles } from 'lucide-react';
+import { Heart, Home, Settings, Shuffle } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 const Navbar = () => {
@@ -27,17 +27,6 @@ const Navbar = () => {
         >
           <Heart size={24} />
           <span className="text-[10px] font-medium uppercase tracking-wider">Favoritos</span>
-        </NavLink>
-
-        <NavLink 
-          to="/ai" 
-          className={({ isActive }) => cn(
-            "flex flex-col items-center gap-1 transition-colors",
-            isActive ? "text-indigo-500" : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
-          )}
-        >
-          <Sparkles size={24} />
-          <span className="text-[10px] font-medium uppercase tracking-wider">IA</span>
         </NavLink>
 
         <NavLink 
