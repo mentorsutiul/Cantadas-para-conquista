@@ -44,7 +44,7 @@ const CategoryDetail = () => {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60" size={16} />
           <input 
             type="text"
-            placeholder="Buscar cantada..."
+            placeholder="Buscar cantadas..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full bg-white/20 border-none rounded-xl py-2.5 pl-11 pr-4 text-sm text-white placeholder:text-white/60 focus:ring-2 focus:ring-white/40 outline-none backdrop-blur-md"

@@ -4,13 +4,40 @@ import {
   ChevronRight, ExternalLink, Palette, Globe, Database
 } from 'lucide-react';
 import { useSettings } from '../SettingsContext';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
 import Modal from '../components/Modal';
 
 const Settings = () => {
   const { settings, updateSettings } = useSettings();
-  const [activeModal, setActiveModal] = useState<'privacy' | 'about' | null>(null);
+  const [activeDetail, setActiveDetail] = useState<'privacy' | 'about' | null>(null);
+  const [shareStatus, setShareStatus] = useState<'idle' | 'copied'>('idle');
+
+  const handleShareApp = async () => {
+    const shareData = {
+      title: 'Cantadas',
+      text: 'Confira o melhor app de cantadas!',
+      url: window.location.origin
+    };
+
+    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        if ((err as Error).name !== 'AbortError') {
+          copyToClipboard();
+        }
+      }
+    } else {
+      copyToClipboard();
+    }
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(window.location.origin);
+    setShareStatus('copied');
+    setTimeout(() => setShareStatus('idle'), 2000);
+  };
 
   const SettingItem = ({ 
     icon: Icon, 
@@ -106,15 +133,6 @@ const Settings = () => {
           color="text-amber-500"
           onClick={() => updateSettings({ notificationsEnabled: !settings.notificationsEnabled })}
         />
-        {settings.notificationsEnabled && (
-          <SettingItem 
-            icon={Globe} 
-            label="Horário do Lembrete" 
-            value={settings.reminderTime}
-            color="text-emerald-500"
-            onClick={() => {}}
-          />
-        )}
       </div>
 
       <SectionHeader>Sobre o App</SectionHeader>
@@ -123,27 +141,20 @@ const Settings = () => {
           icon={Info} 
           label="Sobre o App" 
           color="text-blue-500"
-          onClick={() => setActiveModal('about')}
+          onClick={() => setActiveDetail('about')}
         />
         <SettingItem 
           icon={Shield} 
           label="Termos de Privacidade" 
           color="text-slate-500"
-          onClick={() => setActiveModal('privacy')}
+          onClick={() => setActiveDetail('privacy')}
         />
         <SettingItem 
           icon={Share2} 
           label="Compartilhar App" 
+          value={shareStatus === 'copied' ? 'Copiado!' : undefined}
           color="text-purple-500"
-          onClick={() => {
-            if (navigator.share) {
-              navigator.share({
-                title: 'Cantadas para Conquista',
-                text: 'Confira o melhor app de cantadas!',
-                url: window.location.origin
-              });
-            }
-          }}
+          onClick={handleShareApp}
         />
         <SettingItem 
           icon={Star} 
@@ -159,33 +170,74 @@ const Settings = () => {
         />
       </div>
 
-      <Modal 
-        isOpen={activeModal === 'privacy'} 
-        onClose={() => setActiveModal(null)}
-        title="Termos de Privacidade"
-      >
-        <div className="space-y-4 text-sm">
-          <p><strong>1. Coleta de Dados:</strong> O Cantadas para Conquista não coleta dados pessoais identificáveis. Suas frases favoritas e configurações são salvas localmente no seu dispositivo.</p>
-          <p><strong>2. Uso de Informações:</strong> As informações salvas localmente servem apenas para personalizar sua experiência, como manter o tema escuro e sua lista de favoritos.</p>
-          <p><strong>3. Compartilhamento:</strong> Não compartilhamos nenhuma informação com terceiros, pois não possuímos servidores de banco de dados para este app.</p>
-          <p><strong>4. Alterações:</strong> Reservamo-nos o direito de atualizar estes termos a qualquer momento.</p>
-        </div>
-      </Modal>
+      {/* Full Screen Detail View */}
+      <AnimatePresence>
+        {activeDetail && (
+          <motion.div
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed inset-0 bg-slate-50 dark:bg-slate-950 z-[100] overflow-y-auto"
+          >
+            <div className="max-w-md mx-auto min-h-screen flex flex-col">
+              <header className="sticky top-0 bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-md p-6 flex items-center gap-4 border-b border-slate-100 dark:border-slate-800 z-10">
+                <button 
+                  onClick={() => setActiveDetail(null)}
+                  className="p-2 -ml-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors"
+                >
+                  <ChevronRight size={24} className="rotate-180" />
+                </button>
+                <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+                  {activeDetail === 'about' ? 'Sobre o App' : 'Termos de Privacidade'}
+                </h2>
+              </header>
 
-      <Modal 
-        isOpen={activeModal === 'about'} 
-        onClose={() => setActiveModal(null)}
-        title="Sobre o App"
-      >
-        <div className="space-y-4 text-sm">
-          <p>O <strong>Cantadas para Conquista</strong> foi criado para ajudar você a encontrar as palavras certas em qualquer situação social.</p>
-          <p>Seja para quebrar o gelo com humor, ser romântico ou mostrar seu lado nerd, temos a frase perfeita catalogada em nossas diversas categorias.</p>
-          <p>Nosso objetivo é proporcionar uma experiência leve, divertida e profissional.</p>
-          <p className="pt-4 border-t border-slate-100 dark:border-slate-800 text-center text-slate-400">
-            © 2024 Cantadas para Conquista Team. Todos os direitos reservados.
-          </p>
-        </div>
-      </Modal>
+              <div className="p-8 pb-20">
+                {activeDetail === 'privacy' ? (
+                  <div className="space-y-6 text-slate-600 dark:text-slate-400 leading-relaxed">
+                    <section>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">1. Coleta de Dados</h3>
+                      <p>O Cantadas para Conquista não coleta dados pessoais identificáveis. Suas frases favoritas e configurações são salvas localmente no seu dispositivo.</p>
+                    </section>
+                    <section>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">2. Uso de Informações</h3>
+                      <p>As informações salvas localmente servem apenas para personalizar sua experiência, como manter o tema escuro e sua lista de favoritos.</p>
+                    </section>
+                    <section>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">3. Compartilhamento</h3>
+                      <p>Não compartilhamos nenhuma informação com terceiros, pois não possuímos servidores de banco de dados para este app.</p>
+                    </section>
+                    <section>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">4. Alterações</h3>
+                      <p>Reservamo-nos o direito de atualizar estes termos a qualquer momento.</p>
+                    </section>
+                  </div>
+                ) : (
+                  <div className="space-y-6 text-slate-600 dark:text-slate-400 leading-relaxed">
+                    <p>O <strong>Cantadas para Conquista</strong> foi criado para ajudar você a encontrar as palavras certas em qualquer situação social.</p>
+                    <p>Seja para quebrar o gelo com humor, ser romântico ou mostrar seu lado nerd, temos a frase perfeita catalogada em nossas diversas categorias.</p>
+                    <p>Nosso objetivo é proporcionar uma experiência leve, divertida e profissional, garantindo que você tenha sempre uma boa conversa na ponta da língua.</p>
+                    
+                    <div className="pt-8 border-t border-slate-100 dark:border-slate-800">
+                      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4">Desenvolvedores</h3>
+                      <p className="text-sm">Equipe Cantadas para Conquista</p>
+                      <p className="text-sm mt-1">Contato: suporte@cantadaspro.com</p>
+                    </div>
+
+                    <div className="pt-8 text-center space-y-1">
+                      <p className="text-xs text-slate-400">Versão 1.0.0</p>
+                      <p className="text-xs text-slate-400">
+                        © 2024 Cantadas para Conquista Team.<br />Todos os direitos reservados.
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="mt-12 text-center">
         <p className="text-xs text-slate-400">Versão 1.0.0 (Build 2024)</p>

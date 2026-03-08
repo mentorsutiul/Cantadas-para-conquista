@@ -21,15 +21,20 @@ const PickUpLineCard: React.FC<PickUpLineCardProps> = ({ line }) => {
   };
 
   const handleShare = async () => {
-    if (navigator.share) {
+    const shareData = {
+      title: 'Cantadas',
+      text: line.text,
+      url: window.location.href,
+    };
+
+    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
       try {
-        await navigator.share({
-          title: 'Cantadas para Conquista',
-          text: line.text,
-          url: window.location.href,
-        });
+        await navigator.share(shareData);
       } catch (err) {
-        console.error('Error sharing', err);
+        if ((err as Error).name !== 'AbortError') {
+          console.error('Error sharing', err);
+          handleCopy();
+        }
       }
     } else {
       handleCopy();

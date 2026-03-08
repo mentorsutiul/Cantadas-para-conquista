@@ -1,5 +1,5 @@
 {
-  "name": "Remix: Cantadas para Conquista",
+  "name": "Cantadas",
   "description": "O aplicativo definitivo de cantadas profissionais e criativas, agora com sorteador aleatório de cantadas.",
   "requestFramePermissions": [
     "notifications"

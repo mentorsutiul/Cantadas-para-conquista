@@ -37,7 +37,7 @@ const Daily = () => {
             <Heart size={20} fill="currentColor" />
           </div>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
-            Cantada do Dia
+            Cantadas do Dia
           </h1>
         </div>
         <p className="text-sm text-slate-500 dark:text-slate-400">

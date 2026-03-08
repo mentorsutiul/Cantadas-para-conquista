@@ -31,7 +31,7 @@ const Home = () => {
             <Heart size={22} fill="currentColor" />
           </div>
           <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
-            Cantada
+            Cantadas
           </h1>
         </div>
         
