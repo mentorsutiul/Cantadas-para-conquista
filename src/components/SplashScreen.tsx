@@ -86,16 +86,6 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
           />
         </div>
       </div>
-
-      {/* Footer Meta */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.5 }}
-        transition={{ delay: 1, duration: 1 }}
-        className="absolute bottom-12 text-[10px] font-mono text-slate-500 tracking-widest uppercase"
-      >
-        System Initializing
-      </motion.div>
     </motion.div>
   );
 };
