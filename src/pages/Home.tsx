@@ -27,8 +27,8 @@ const Home = () => {
       {/* Top Bar */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <div className="w-10 h-10 rounded-xl bg-rose-500 flex items-center justify-center text-white shadow-lg shadow-rose-500/20">
-            <Heart size={22} fill="currentColor" />
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-rose-500/20">
+            <Heart size={20} fill="white" className="text-white" />
           </div>
           <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
             Cantadas

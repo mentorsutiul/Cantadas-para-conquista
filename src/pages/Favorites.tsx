@@ -19,8 +19,8 @@ const Favorites = () => {
     <div className="pb-24 pt-6 px-6 max-w-md mx-auto">
       <header className="mb-6">
         <div className="flex items-center gap-3 mb-1">
-          <div className="p-1.5 bg-rose-100 dark:bg-rose-900/30 text-rose-500 rounded-lg">
-            <Heart size={20} fill="currentColor" />
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-rose-500/20">
+            <Heart size={20} fill="white" className="text-white" />
           </div>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
             Favoritos

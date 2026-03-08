@@ -68,7 +68,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
             CAN<span className="text-rose-500">TADAS</span>
           </h1>
           <p className="text-slate-400 font-sans text-sm tracking-[0.2em] uppercase">
-            Sua dose de criatividade
+            Sua dose de Conquista
           </p>
         </motion.div>
 
