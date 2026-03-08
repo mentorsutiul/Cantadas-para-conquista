@@ -10,7 +10,7 @@ import Modal from '../components/Modal';
 
 const Settings = () => {
   const { settings, updateSettings } = useSettings();
-  const [activeDetail, setActiveDetail] = useState<'privacy' | 'about' | null>(null);
+  const [activeDetail, setActiveDetail] = useState<'privacy' | 'about' | 'terms' | null>(null);
   const [shareStatus, setShareStatus] = useState<'idle' | 'copied'>('idle');
   const [ratingStatus, setRatingStatus] = useState<'idle' | 'redirecting'>('idle');
 
@@ -153,9 +153,15 @@ const Settings = () => {
         />
         <SettingItem 
           icon={Shield} 
-          label="Termos de Privacidade" 
+          label="Política de Privacidade" 
           color="text-slate-500"
           onClick={() => setActiveDetail('privacy')}
+        />
+        <SettingItem 
+          icon={Database} 
+          label="Termos de Uso" 
+          color="text-slate-400"
+          onClick={() => setActiveDetail('terms')}
         />
         <SettingItem 
           icon={Share2} 
@@ -198,29 +204,91 @@ const Settings = () => {
                   <ChevronRight size={24} className="rotate-180" />
                 </button>
                 <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-                  {activeDetail === 'about' ? 'Sobre o App' : 'Termos de Privacidade'}
+                  {activeDetail === 'about' ? 'Sobre o App' : activeDetail === 'privacy' ? 'Política de Privacidade' : 'Termos de Uso'}
                 </h2>
               </header>
 
               <div className="p-8 pb-20">
                 {activeDetail === 'privacy' ? (
                   <div className="space-y-6 text-slate-600 dark:text-slate-400 leading-relaxed">
+                    <p className="text-sm">Esta Política de Privacidade descreve como o aplicativo Cantadas para Conquista lida com as informações dos usuários.</p>
+                    
                     <section>
                       <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">1. Coleta de Dados</h3>
-                      <p>O Cantadas para Conquista não coleta dados pessoais identificáveis. Suas frases favoritas e configurações são salvas localmente no seu dispositivo.</p>
+                      <p>O aplicativo Cantadas para Conquista não coleta informações pessoais identificáveis. As frases favoritas e configurações do aplicativo são armazenadas apenas localmente no dispositivo do usuário.</p>
                     </section>
+                    
                     <section>
-                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">2. Uso de Informações</h3>
-                      <p>As informações salvas localmente servem apenas para personalizar sua experiência, como manter o tema escuro e sua lista de favoritos.</p>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">2. Uso das Informações</h3>
+                      <p>As informações armazenadas localmente são utilizadas apenas para melhorar a experiência do usuário, como salvar frases favoritas e manter preferências de tema.</p>
                     </section>
+                    
                     <section>
-                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">3. Compartilhamento</h3>
-                      <p>Não compartilhamos nenhuma informação com terceiros, pois não possuímos servidores de banco de dados para este app.</p>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">3. Anúncios</h3>
+                      <p>Este aplicativo pode exibir anúncios através do serviço Google AdMob. O Google pode coletar informações anônimas para fornecer anúncios personalizados ou relevantes. Para mais informações, consulte a política de privacidade do Google.</p>
                     </section>
+                    
                     <section>
-                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">4. Alterações</h3>
-                      <p>Reservamo-nos o direito de atualizar estes termos a qualquer momento.</p>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">4. Compartilhamento de Dados</h3>
+                      <p>O aplicativo não compartilha informações pessoais com terceiros.</p>
                     </section>
+                    
+                    <section>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">5. Segurança</h3>
+                      <p>Como os dados são armazenados apenas localmente no dispositivo do usuário, não existe armazenamento de dados em servidores externos.</p>
+                    </section>
+                    
+                    <section>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">6. Alterações nesta Política</h3>
+                      <p>Esta política de privacidade pode ser atualizada periodicamente para refletir melhorias ou mudanças no aplicativo.</p>
+                    </section>
+                    
+                    <section>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">7. Contato</h3>
+                      <p>Caso tenha dúvidas sobre esta Política de Privacidade, entre em contato através do suporte do aplicativo.</p>
+                    </section>
+
+                    <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+                      <p className="text-xs text-slate-400 italic">Última atualização: 8 de março de 2026</p>
+                    </div>
+                  </div>
+                ) : activeDetail === 'terms' ? (
+                  <div className="space-y-6 text-slate-600 dark:text-slate-400 leading-relaxed">
+                    <p className="text-sm">Ao utilizar o aplicativo Cantadas para Conquista, você concorda com os seguintes termos:</p>
+                    
+                    <section>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">1. Uso do Aplicativo</h3>
+                      <p>O aplicativo foi desenvolvido para fins de entretenimento, oferecendo frases e cantadas para os usuários.</p>
+                    </section>
+                    
+                    <section>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">2. Responsabilidade do Usuário</h3>
+                      <p>O usuário é responsável pelo uso adequado das frases compartilhadas através do aplicativo.</p>
+                    </section>
+                    
+                    <section>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">3. Conteúdo</h3>
+                      <p>As frases disponíveis no aplicativo são fornecidas apenas para entretenimento. O desenvolvedor não se responsabiliza pela forma como o conteúdo é utilizado pelos usuários.</p>
+                    </section>
+                    
+                    <section>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">4. Atualizações</h3>
+                      <p>O aplicativo pode receber atualizações periódicas para melhorias de desempenho, novas funcionalidades ou correções.</p>
+                    </section>
+                    
+                    <section>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">5. Modificações nos Termos</h3>
+                      <p>Estes termos podem ser atualizados a qualquer momento para refletir mudanças no aplicativo.</p>
+                    </section>
+                    
+                    <section>
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">6. Aceitação</h3>
+                      <p>Ao utilizar o aplicativo, o usuário declara que leu e concorda com estes Termos de Uso.</p>
+                    </section>
+
+                    <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+                      <p className="text-xs text-slate-400 italic">Última atualização: 8 de março de 2026</p>
+                    </div>
                   </div>
                 ) : (
                   <div className="space-y-6 text-slate-600 dark:text-slate-400 leading-relaxed">
